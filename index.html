@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pré-Balanço Gerencial | V2</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--text:#17212b;--muted:#66737f;--line:#dce3e9;--primary:#1769e0;--ok:#198754;--warn:#d99a00;--danger:#c92a2a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Arial,sans-serif}
+header{background:#17212b;color:white;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;gap:20px}
+header h1{margin:0;font-size:23px} header small{color:#cbd3da}.wrap{max-width:1100px;margin:25px auto;padding:0 16px}
+.card{background:white;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 3px 15px #00000008}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+label{display:block;font-weight:700;margin-bottom:6px}input,select,textarea{width:100%;padding:10px;border:1px solid #c8d0d8;border-radius:8px;font:inherit}textarea{min-height:75px}
+button{border:0;border-radius:8px;padding:10px 15px;font-weight:700;cursor:pointer}.primary{background:var(--primary);color:white}.secondary{background:#e9eef3;color:#17212b}.danger{background:var(--danger);color:white}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab.active{background:var(--primary);color:white}
+.hidden{display:none!important}.notice{padding:12px;border-radius:9px;background:#eef5ff;border-left:4px solid var(--primary);margin:10px 0}.warn{background:#fff6dc;border-left-color:var(--warn)}.success{background:#dff4e7;border-left-color:var(--ok)}.error{background:#fbe1e1;border-left-color:var(--danger)}
+.progress{height:12px;background:#e7ebef;border-radius:99px;overflow:hidden}.bar{height:100%;background:var(--ok);transition:.2s}
+.item{border:1px solid var(--line);border-radius:11px;padding:15px;margin:11px 0}.item h3{margin:0 0 4px;font-size:16px}.item p{color:var(--muted);margin:5px 0 12px}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.row{display:flex;gap:9px;align-items:flex-start}.row input{width:auto;margin-top:4px}.badge{display:inline-block;padding:3px 8px;border-radius:99px;font-size:12px;font-weight:700}.b-ok{background:#dff4e7;color:#116b3c}.b-warn{background:#fff0c7;color:#755500}.b-danger{background:#f8d7da;color:#842029}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}th{font-size:12px;text-transform:uppercase;color:var(--muted)}
+.linkbox{background:#f5f7f9;border:1px dashed #aeb8c2;padding:12px;border-radius:9px;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div><h1>Pré-Balanço Gerencial — V2</h1><small>Preparação e validação da unidade para inventário</small></div><div id="clock"></div></header>
+<div class="wrap">
+<div class="tabs">
+<button class="tab active" onclick="show('auditor',this)">Painel do Auditor</button>
+<button class="tab secondary" onclick="show('gestor',this)">Acesso do Gestor</button>
+</div>
+
+<section id="auditor">
+<div class="card"><h2>Criar pré-balanço</h2>
+<div class="grid">
+<div><label>Filial</label><input id="aFilial" placeholder="Ex.: 119"></div>
+<div><label>Data do balanço</label><input id="aData" type="date"></div>
+<div><label>Horário limite</label><input id="aHora" type="time" value="11:00"></div>
+<div><label>Gestor responsável</label><input id="aGestor"></div>
+<div><label>Matrícula</label><input id="aMatricula"></div>
+</div>
+<div class="actions" style="margin-top:14px"><button class="primary" onclick="criar()">Criar pré-balanço</button></div>
+<div id="aMsg"></div>
+</div>
+<div class="card"><h2>Pré-balanços cadastrados</h2><div id="lista"></div></div>
+</section>
+
+<section id="gestor" class="hidden">
+<div class="card"><h2>Pré-Balanço da Unidade</h2>
+<div id="gHeader" class="notice">Informe o código de acesso recebido por e-mail.</div>
+<div class="two">
+<div><label>Código de acesso</label><input id="token" placeholder="Ex.: PB-119-20260916"></div>
+<div style="align-self:end"><button class="primary" onclick="carregarGestor()">Abrir formulário</button></div>
+</div>
+</div>
+<div id="formGestor" class="hidden">
+<div class="card"><h2 id="gTitulo"></h2><div id="gPrazo"></div><div class="progress"><div class="bar" id="gBar"></div></div><p id="gPct">0%</p></div>
+<div class="card"><h2>1. Parte sistêmica</h2><p style="color:var(--muted)">Regularize as pendências. Se não for possível resolver, registre o chamado e anexe a evidência.</p><div id="gSis"></div></div>
+<div class="card"><h2>2. Parte de organização física</h2><p style="color:var(--muted)"><b>As fotos desta etapa devem representar a condição da loja no dia do balanço.</b></p><div id="gOrg"></div></div>
+<div class="card"><h2>3. Validação final</h2><div class="item"><div class="row"><input id="gDeclaracao" type="checkbox" onchange="atualizarGestor()"><span>Declaro que realizei as verificações, regularizei as pendências ou formalizei as situações não solucionadas por meio de chamado e que a unidade está preparada para o balanço.</span></div></div>
+<div id="gFinalMsg"></div><button id="gSalvar" class="secondary" onclick="salvarGestor()">Salvar progresso</button> <button id="gFinalizar" class="primary" onclick="finalizarGestor()">Finalizar e enviar</button></div>
+</div>
+</section>
+</div>
+
+<script>
+const SYS=[
+["notas","Resolução de notas — terceiros","Verificar e regularizar notas pendentes de terceiros."],
+["transferencias","Resolução de notas — transferências/CD","Verificar e regularizar pendências de transferências e/ou CD."],
+["caixa","Fechamento de caixa","Garantir que todos os caixas estejam finalizados e com o fechamento realizado."],
+["consolidacao","Consolidação","Realizar a consolidação do movimento da unidade."],
+["passos45","Passos 4 e 5","Executar e finalizar os Passos 4 e 5 conforme procedimento."],
+["vencidos","Retirada de vencidos","Realizar a retirada/regularização dos produtos vencidos."]
+];
+const ORG=[
+["medicamentos","Medicamentos","Organizar respeitando o espaçamento da esquerda para a direita."],
+["perfumaria","Perfumaria","Alinhar em fila os produtos do mesmo código de barras."],
+["conveniencia","Conveniência","Alinhar em fila os produtos do mesmo código de barras."],
+["carteladosCodigo","Cartelados — código interno","Garantir a identificação com código interno."],
+["carteladosElastico","Cartelados — amarração","Realizar amarração com elástico a cada 10 unidades."],
+["esmaltes","Perfilados de esmaltes","Organizar os perfilados no padrão de esmalteria."]
+];
+let current=null;
+
+function db(){return JSON.parse(localStorage.getItem("PBV2")||"{}")}
+function saveDB(x){localStorage.setItem("PBV2",JSON.stringify(x))}
+function tokenFor(f,d){return "PB-"+f+"-"+d.replaceAll("-","")}
+function criar(){
+ const f=aFilial.value.trim(), d=aData.value;
+ if(!f||!d){aMsg.innerHTML='<div class="notice error">Informe filial e data do balanço.</div>';return}
+ const x=db(),t=tokenFor(f,d);
+ x[t]={token:t,filial:f,data:d,hora:aHora.value||"11:00",gestor:aGestor.value,matricula:aMatricula.value,created:new Date().toLocaleString("pt-BR"),status:"Em preparação",items:{},declaracao:false};
+ saveDB(x);aMsg.innerHTML=`<div class="notice success"><b>Pré-balanço criado.</b><br>Código: <b>${t}</b><br><div class="linkbox">URL do gestor: ${location.href.split("#")[0]}#gestor/${t}</div><br>Envie esse link ao gestor.</div>`;listar();
+}
+function listar(){
+ const x=db(), keys=Object.keys(x);
+ lista.innerHTML=keys.length?`<table><tr><th>Filial</th><th>Balanço</th><th>Gestor</th><th>Status</th><th>Código</th></tr>${keys.map(k=>{let v=x[k];return `<tr><td>${v.filial}</td><td>${new Date(v.data+"T00:00:00").toLocaleDateString("pt-BR")}</td><td>${v.gestor||"-"}</td><td><span class="badge ${v.status==="Finalizado"?"b-ok":"b-warn"}">${v.status}</span></td><td><code>${v.token}</code></td></tr>`}).join("")}</table>`:"Nenhum pré-balanço cadastrado.";
+}
+function show(id,btn){document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}
+function carregarGestor(){
+ const t=token.value.trim(),x=db()[t];if(!x){gHeader.className="notice error";gHeader.textContent="Código não encontrado.";return}
+ current=t;formGestor.classList.remove("hidden");gTitulo.textContent=`Filial ${x.filial} — Balanço em ${new Date(x.data+"T00:00:00").toLocaleDateString("pt-BR")}`;
+ renderItems();atualizarGestor();
+}
+function renderItems(){
+ const x=db()[current];
+ gSis.innerHTML=SYS.map(i=>item(i,"sys",x)).join("");
+ gOrg.innerHTML=ORG.map(i=>item(i,"org",x)).join("");
+}
+function item(i,type,x){
+ const v=x.items[i[0]]||{};
+ return `<div class="item"><h3>${i[1]} <span id="badge-${i[0]}" class="badge b-warn">Pendente</span></h3><p>${i[2]}</p>
+ <label>Observação / pendência</label><textarea id="obs-${i[0]}" placeholder="Descreva a situação, se necessário.">${v.obs||""}</textarea>
+ <div class="two" style="margin-top:10px"><div><label>${type==="sys"?"Número do chamado (se aplicável)":"Evidência / foto"}</label>${type==="sys"?`<input id="ch-${i[0]}" value="${v.ch||""}" placeholder="Ex.: 123456">`:""}<input id="file-${i[0]}" type="file" accept="${type==="sys"?"image/*,.pdf":"image/*"}"></div><div><label>Evidência já registrada</label><div class="notice">${v.file||"Nenhuma"}</div></div></div>
+ <div class="row" style="margin-top:10px"><input id="ok-${i[0]}" type="checkbox" ${v.ok?"checked":""} onchange="atualizarGestor()"><span>Conferi este item e considero a etapa preparada.</span></div></div>`;
+}
+function collect(){
+ const x=db()[current];x.declaracao=gDeclaracao.checked;
+ [...SYS,...ORG].forEach(i=>{const id=i[0],file=document.getElementById("file-"+id)?.files[0];x.items[id]={ok:document.getElementById("ok-"+id).checked,obs:document.getElementById("obs-"+id).value,ch:document.getElementById("ch-"+id)?.value||"",file:file?file.name:(x.items[id]?.file||"")}})
+ return x;
+}
+function atualizarGestor(){
+ if(!current)return;const x=collect(),n=[...SYS,...ORG].filter(i=>x.items[i[0]]?.ok).length,total=SYS.length+ORG.length+1,p=Math.round((n+(x.declaracao?1:0))/total*100);
+ gBar.style.width=p+"%";gPct.textContent=p+"% concluído";
+ [...SYS,...ORG].forEach(i=>{const b=document.getElementById("badge-"+i[0]);if(x.items[i[0]]?.ok){b.textContent="Preparado";b.className="badge b-ok"}else{b.textContent="Pendente";b.className="badge b-warn"}});
+ const now=new Date(),day=now.toISOString().slice(0,10),hm=now.toTimeString().slice(0,5);
+ const pode=day===x.data && hm<=x.hora;
+ gPrazo.className=pode?"notice success":day<x.data?"notice":"notice warn";
+ gPrazo.innerHTML=pode?`<b>Validação final liberada.</b> Envie até ${x.hora}.`:day<x.data?`Em preparação. O envio final será liberado em ${new Date(x.data+"T00:00:00").toLocaleDateString("pt-BR")} até ${x.hora}.`:`<b>Prazo de envio encerrado.</b>`;
+ gFinalizar.disabled=!(pode&&p===100&&x.status!=="Finalizado");gFinalizar.style.opacity=gFinalizar.disabled?".5":"1";
+ return x;
+}
+function salvarGestor(){if(!current)return;const x=collect(),d=db();d[current]=x;saveDB(d);atualizarGestor();alert("Progresso salvo. Você pode fechar e continuar depois.");}
+function finalizarGestor(){
+ const x=atualizarGestor(),d=db();if(gFinalizar.disabled)return;
+ x.status="Finalizado";x.sentAt=new Date().toLocaleString("pt-BR");d[current]=x;saveDB(d);
+ gFinalMsg.className="notice success";gFinalMsg.innerHTML=`<b>Pré-balanço finalizado com sucesso.</b><br>Filial ${x.filial}<br>Enviado em ${x.sentAt}`;
+ gFinalizar.disabled=true;gSalvar.disabled=true;
+}
+function tick(){clock.textContent=new Date().toLocaleString("pt-BR");if(current)atualizarGestor()}
+setInterval(tick,1000);tick();listar();
+if(location.hash.startsWith("#gestor/")){show("gestor",document.querySelectorAll(".tab")[1]);token.value=location.hash.split("/")[1];carregarGestor()}
+</script>
+</body>
+</html>
