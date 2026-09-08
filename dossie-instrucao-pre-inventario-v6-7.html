@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dossiê de Instrução Pré-Inventário | V6.2</title>
+<style>
+:root{--nissei-blue:#005b8f;--nissei-blue-dark:#004b75;--nissei-yellow:#efc30a;--nissei-red:#ee3a42;--bg:#f5f8fa;--card:#fff;--text:#173042;--muted:#687984;--line:#dce6ec;--accent:var(--nissei-blue);--ok:#16834b;--warn:#efc30a;--danger:#d9303e;--dark:#003f63}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#eef5f8 0,#f7f9fa 260px,#f5f8fa 100%);color:var(--text);font:15px/1.55 Arial,sans-serif}
+header{background:#fff;color:var(--text);padding:16px 5%;display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:5px solid var(--nissei-yellow);box-shadow:0 2px 14px #005b8f18;position:relative}
+header:before{content:"";position:absolute;left:0;top:0;width:7px;height:100%;background:var(--nissei-blue)}
+.header-brand{display:flex;align-items:center;gap:20px}.header-logo{width:150px;height:auto;display:block}.header-copy{border-left:1px solid var(--line);padding-left:20px}header h1{margin:0;font-size:25px;color:var(--nissei-blue-dark);letter-spacing:-.2px}header small{color:var(--muted);display:block;margin-top:2px}.clock{font-size:13px;text-align:right;color:var(--muted);white-space:nowrap}
+main{max-width:1120px;margin:30px auto;padding:0 18px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:18px;box-shadow:0 5px 20px #005b8f0d}h2{margin:0 0 14px;font-size:19px;color:var(--nissei-blue-dark)}.intro{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}@media(max-width:700px){.grid{grid-template-columns:1fr}.header-brand{align-items:flex-start}.header-copy{padding-left:14px}header{align-items:flex-start;flex-direction:column}.clock{text-align:left}.header-logo{width:125px}header h1{font-size:21px}}
+label{font-weight:700;display:block;margin-bottom:6px;color:#294454}input,textarea,select{width:100%;padding:11px 12px;border:1px solid #cbd8df;border-radius:9px;font:inherit;background:#fff;color:var(--text);outline:none;transition:.15s}input:focus,textarea:focus,select:focus{border-color:var(--nissei-blue);box-shadow:0 0 0 3px #005b8f12}textarea{min-height:80px;resize:vertical}
+button{border:0;border-radius:9px;padding:11px 17px;font-weight:700;cursor:pointer;transition:.15s;box-shadow:0 1px 2px #0000000a}button:hover:not(:disabled){transform:translateY(-1px)}button:disabled{cursor:not-allowed;opacity:.5}.primary{background:var(--nissei-blue);color:#fff}.primary:hover:not(:disabled){background:var(--nissei-blue-dark)}.secondary{background:#eaf1f5;color:var(--nissei-blue-dark)}.danger{background:var(--danger);color:#fff}.successBtn{background:var(--ok);color:#fff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.notice{padding:13px 15px;border-radius:10px;background:#edf6fb;border-left:4px solid var(--nissei-blue);margin:12px 0}.warning{background:#fff9df;border-left-color:var(--nissei-yellow)}
+.progress{height:12px;background:#e7edf1;border-radius:20px;overflow:hidden}.bar{height:100%;background:var(--nissei-blue);width:0%;transition:.25s}.pct{font-weight:700;margin-top:7px;color:var(--nissei-blue-dark)}
+.item{border:1px solid var(--line);border-radius:12px;padding:17px;margin:12px 0;background:#fff}.item h3{margin:0 0 5px;font-size:16px;color:#21485f}.item p{margin:5px 0;color:var(--muted)}
+.status{display:inline-block;padding:4px 9px;border-radius:99px;font-size:12px;font-weight:700;background:#eef2f5}.status.ok{background:#dff5e8;color:#126b3c}.status.pending{background:#fff4cf;color:#765900}.checkrow{display:flex;gap:10px;align-items:flex-start}.checkrow input{width:auto;margin-top:4px}.lock{padding:15px;border-radius:10px;background:#f8d7da;color:#842029;font-weight:700}.success{padding:16px;border-radius:10px;background:#d1e7dd;color:#0f5132}.hidden{display:none!important}.muted{color:var(--muted)}.tag{display:inline-block;padding:5px 10px;border-radius:999px;background:#eaf1f5;color:var(--nissei-blue-dark);font-size:12px;font-weight:700}.auth{max-width:560px;margin:55px auto}.brand{text-align:center;margin-bottom:22px}.brand img{width:170px;margin-bottom:12px}.brand h2{margin-bottom:4px}.brand p{color:var(--muted)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}.dossier-list{display:grid;gap:10px}.dossier-row{border:1px solid var(--line);border-radius:12px;padding:15px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;background:#fff}.dossier-row:hover{border-color:#a9c5d4;box-shadow:0 3px 12px #005b8f0b}.small{font-size:12px}.error{color:#842029;background:#f8d7da;padding:12px;border-radius:9px}.loading{opacity:.65;pointer-events:none}
+.section-title{display:flex;align-items:center;gap:10px}.section-number{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--nissei-blue);color:#fff;font-weight:800;font-size:14px}.manager-hero{background:linear-gradient(135deg,#005b8f,#004b75);color:#fff;border:0}.manager-hero h2{color:#fff;font-size:22px}.manager-hero .muted{color:#d8ebf4}.manager-hero .tag{background:#fff;color:var(--nissei-blue-dark)}
+footer{max-width:1120px;margin:10px auto 35px;padding:0 18px;color:var(--muted);font-size:12px;text-align:center}
+
+    .admin-user-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:88px}
+    .danger-btn{border:1px solid #d33b3b;background:#fff;color:#b42318;border-radius:8px;padding:7px 11px;font-weight:700;cursor:pointer}
+    .danger-btn:hover{background:#fff1f1}
+</style>
+
+<style id="v6-account-styles">
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,38,85,.48);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999;backdrop-filter:blur(3px)}
+.modal-card{position:relative;width:min(560px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.22);padding:30px}
+.modal-close{position:absolute;right:16px;top:12px;border:0;background:transparent;font-size:30px;line-height:1;cursor:pointer;color:#5b6573}
+.modal-kicker{font-size:12px;font-weight:800;letter-spacing:.12em;color:#0b5cab;margin-bottom:6px}
+.modal-card h2{margin:0 0 20px;color:#073b7a}
+.modal-card h3{margin:0 0 8px;color:#073b7a}
+.account-info{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px}
+.account-info div{background:#f5f8fc;border:1px solid #e3eaf3;border-radius:12px;padding:11px 14px}
+.account-info span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#738096;margin-bottom:3px}
+.account-info strong{color:#1c2d43}
+.modal-card hr{border:0;border-top:1px solid #e6ebf2;margin:22px 0}
+.modal-card label{display:block;font-weight:700;color:#27384d;margin:13px 0}
+.modal-card input{display:block;width:100%;box-sizing:border-box;margin-top:7px;padding:12px 13px;border:1px solid #cfd8e5;border-radius:10px;font:inherit;outline:none}
+.modal-card input:focus{border-color:#0b5cab;box-shadow:0 0 0 3px rgba(11,92,171,.12)}
+.password-hint{font-size:12px;color:#738096;margin:6px 0 16px}
+.form-message{margin-top:12px;min-height:20px;font-size:14px;font-weight:700}
+.form-message.success{color:#167447}
+.form-message.error{color:#b42318}
+.v6-account-button{margin-left:auto}
+@media(max-width:640px){.modal-card{padding:24px 18px;border-radius:18px}.modal-backdrop{padding:10px}}
+</style>
+
+
+<style id="v6-admin-styles">
+.admin-modal-card{width:min(900px,100%)}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.admin-grid .full{grid-column:1/-1}.admin-user-list{display:grid;gap:9px;margin-top:15px}.admin-user-row{display:grid;grid-template-columns:1.4fr 1.5fr .8fr .7fr;gap:10px;align-items:center;border:1px solid #dce6ec;border-radius:12px;padding:12px 14px;background:#f9fbfc}.admin-user-row .muted{font-size:12px}.admin-role{display:inline-block;padding:4px 8px;border-radius:99px;background:#eaf1f5;color:#004b75;font-size:12px;font-weight:700}.admin-role.admin{background:#fff4cf;color:#765900}.admin-role.auditor{background:#e6f4fb;color:#005b8f}.admin-section{margin-top:20px}.admin-section h3{margin:0 0 8px;color:#073b7a}.admin-note{font-size:12px;color:#687984}.admin-success{color:#167447;background:#e8f7ee;border-radius:9px;padding:10px;margin-top:10px;font-weight:700}.admin-error{color:#842029;background:#f8d7da;border-radius:9px;padding:10px;margin-top:10px;font-weight:700}@media(max-width:760px){.admin-grid{grid-template-columns:1fr}.admin-grid .full{grid-column:auto}.admin-user-row{grid-template-columns:1fr}.admin-modal-card{padding:22px 16px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <img class="header-logo" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJDYW1hZGFfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTYxLjMgNTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojZWUzYTQyO30uY2xzLTEsLmNscy0yLC5jbHMtMywuY2xzLTR7c3Ryb2tlLXdpZHRoOjBweDt9LmNscy0ye2ZpbGw6I2ZmZjt9LmNscy0ze2ZpbGw6I2VmYzMwYTt9LmNscy00e2ZpbGw6IzAwNWI4Zjt9PC9zdHlsZT48L2RlZnM+PGcgaWQ9IkNhbWFkYV8xLTIiPjxwYXRoIGNsYXNzPSJjbHMtMyIgZD0iTTE0NC40LDUxSDYuOGMtNC4yLDAtNy40LTMuNy02LjctNy44TDUuNCwxMC4zYy42LTQuMiw0LjItNy4zLDguNC03LjNoMTM3LjljNC4yLDAsNy4xLDMuNyw2LjQsNy44bC01LjQsMzIuOWMtLjYsNC4yLTQuMiw3LjMtOC40LDcuM1oiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0xNDcuNCw0OEg5LjhjLTQuMiwwLTcuNC0zLjctNi43LTcuOEw4LjQsNy4zQzksMy4xLDEyLjYsMCwxNi44LDBoMTM3LjljNC4yLDAsNy4xLDMuNyw2LjQsNy44bC01LjQsMzIuOWMtLjYsNC4yLTQuMiw3LjMtOC40LDcuM1oiLz48cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Ik0xMDAuOSwxNWMwLC4yLS4yLjMtLjMuMy0uMSwwLDAsMCwwLDAsMCwwLS4xLDAtLjIsMC0uOS0uMS0xLjgtLjItMi44LS4zLS45LDAtMS45LS4xLTIuOC0uMXMtMS43LjEtMi4yLjNjLS42LjItLjkuNy0xLDEuNS0uMS42LDAsMS4xLjQsMS4zLjMuMi44LjUsMS40LjhsMy4yLDEuNGMxLjQuNiwyLjUsMS40LDMuMSwyLjQuNywxLC45LDIuMi42LDMuNy0uMywyLTEuMiwzLjQtMi44LDQuNS0xLjYsMS4xLTMuNiwxLjYtNiwxLjZzLTIuNywwLTMuOS0uMmMtMS4yLS4yLTIuNC0uNC0zLjYtLjctLjMsMC0uNC0uMi0uNC0uNmwuNS0zczAsMCwwLDBjMC0uMi4yLS4zLjQtLjMuMSwwLDAsMCwuMSwwLDEsLjEsMi4xLjIsMy4zLjMsMS4yLDAsMi40LjEsMy40LjFzMS45LS4xLDIuNC0uNGMuNi0uMy45LS44LDEtMS41LDAtLjYsMC0xLjEtLjQtMS40LS4zLS4zLS44LS42LTEuNC0uOWwtMy0xLjNjLTEuNS0uNi0yLjYtMS40LTMuMy0yLjMtLjctLjktLjktMi4xLS43LTMuNi4yLTEuMS41LTIsMS0yLjcuNS0uOCwxLjEtMS40LDEuOS0xLjkuNy0uNSwxLjYtLjgsMi42LTEuMSwxLS4yLDIuMS0uMywzLjItLjNzMi4zLDAsMy40LjJjMS4xLjIsMi4xLjQsMi45LjcuMiwwLC41LjIuNC42bC0uNSwzczAsMCwwLC4xWk0xMTguMywxMS40Yy0uOC0uMy0xLjgtLjUtMi45LS43LTEuMS0uMi0yLjMtLjItMy40LS4ycy0yLjIuMS0zLjIuM2MtMSwuMi0xLjkuNi0yLjYsMS4xLS43LjUtMS40LDEuMS0xLjksMS45LS41LjctLjgsMS43LTEsMi43LS4yLDEuNSwwLDIuNy43LDMuNi43LjksMS44LDEuNywzLjMsMi4zbDMsMS4zYy42LjMsMS4xLjYsMS40LjkuNC4zLjUuOC40LDEuNC0uMS43LS41LDEuMi0xLDEuNS0uNi4zLTEuMy40LTIuNC40cy0yLjEsMC0zLjQtLjFjLTEuMiwwLTIuMy0uMi0zLjMtLjMsMCwwLDAsMC0uMSwwLS4yLDAtLjMuMS0uNC4zLDAsLjIsMCwwLDAsMGwtLjUsM2MwLC4zLDAsLjUuNC42LDEuMS4zLDIuMy41LDMuNi43LDEuMi4yLDIuNi4yLDMuOS4yLDIuNCwwLDQuNC0uNSw2LTEuNiwxLjYtMS4xLDIuNS0yLjUsMi44LTQuNS4yLTEuNSwwLTIuNy0uNi0zLjctLjctMS0xLjctMS44LTMuMS0yLjRsLTMuMi0xLjRjLS42LS4zLTEuMS0uNS0xLjQtLjgtLjQtLjMtLjUtLjctLjQtMS4zLjEtLjcuNS0xLjIsMS0xLjUuNS0uMiwxLjItLjMsMi4yLS4zczEuOSwwLDIuOC4xYy45LDAsMS45LjIsMi44LjMsMCwwLDAsMCwuMiwwczAsMCwwLDBjLjEsMCwuMy0uMS4zLS4zczAsMCwwLS4xbC41LTNjMC0uNC0uMi0uNS0uNC0uNlpNODEuOSwxNi41aC0zLjRjMCwwLS4xLDAsMCwwLDEuNi0uMiw0LjgtMS41LDUuMS0zLjYuMS0uOC4yLTIuMS0xLjQtMi4xaC0yLjZjLS41LDAtMS4yLjQtMS4zLDEuMWwtMy4xLDE4LjdjLS4yLDEsLjEsMS40LjYsMS40aDMuN2MuNSwwLDEtLjQsMS0uOWwuNC0yLjJzMS02LjEsMS44LTExLjFjLjEtLjgtLjQtMS4yLTEuMS0xLjJaTTE0OC4xLDEyLjljLjEtLjguMi0yLjEtMS40LTIuMWgtMi42Yy0uNSwwLTEuMi40LTEuMywxLjFsLTMuMSwxOC43Yy0uMiwxLC4xLDEuNC42LDEuNGgzLjdjLjUsMCwxLS40LDEtLjlsLjQtMi4yczEtNi4xLDEuOC0xMS4xYy4xLS44LS40LTEuMi0xLjEtMS4yaC0zLjRjMCwwLS4xLDAsMCwwLDEuNi0uMiw0LjgtMS41LDUuMS0zLjZaTTY3LjksMTAuOWMtMi4yLDAtMTIuNiwwLTE0LjMsMC0uOSwwLTEuMy42LTEuNCwxLjUtLjEuOC0uMywxLjktLjQsMi42LS4xLjcuMiwxLC45LDFzLjgsMCwxLjIsMGMxLjksMCw0LjMsMCw0LjUsMCwuNCwwLC4xLjEsMCwuMi0uOS4zLTMuNywyLTQuMyw1LjktLjEuNy0xLjQsOC41LTEuNCw4LjUsMCwuMiwwLC4zLDAsLjUsMCwuNy40LjkuNy45aDIuOXMwLDAsLjMsMGMxLjEsMCwxLjQtLjMsMS42LTEuNC4zLTEuNiwyLjItMTMuNiwyLjQtMTQuNS45LDAsMS45LDAsMy40LDAsMS41LDAsMy40LS4xLDQuMiwxLC44LDEuMS42LDIuMy40LDQuMSwwLDAtMS42LDkuNS0xLjYsOS41LDAsLjIsMCwuMywwLC41LDAsLjcuNC45LjcuOWgyLjlzMCwwLC4zLDBjMS4xLDAsMS40LS4zLDEuNi0xLjQsMC0uNCwyLTEyLDIuMS0xMi44LjktNS40LTQuMi02LjktNi40LTYuOVpNMTM5LjUsMTkuMmMtLjMsMS41LS45LDIuNi0yLjEsMy40LTEuMi43LTIuNywxLjEtNC42LDEuMSwwLDAtMy45LjItNS45LS4zLTEuMi0uMy0xLjUtMi4xLTEuNy0yLjctLjUsMi4xLS40LDMuNS0uNCwzLjUsMCwxLjUuNSwyLjYsMS41LDMuMi45LjYsMi4yLjksMy45LjlzMi4xLDAsMy4yLS4xYzEuMSwwLDEuNy0uMSwyLjYtLjMsMCwwLDAsMCwuMSwwLC4yLDAsLjQsMCwuNC40bC0uNCwyLjZjMCwuMi0uMS4zLS40LjQtMS4xLjMtMi4yLjUtMy40LjctMS4yLjItMi40LjItMy41LjItMiwwLTMuNi0uMi00LjktLjctMS4zLS40LTIuMy0xLjEtMy0yLS43LS45LTEuMi0xLjktMS4zLTMuMi0uMi0xLjMtLjItMi43LjEtNC40bC4yLTEuM2MuNS0zLjEsMS43LTUuNSwzLjYtNy4zLDEuOS0xLjgsNC42LTIuNiw4LjEtMi42czUuMy44LDYuNiwyLjNjMS4zLDEuNSwxLjcsMy42LDEuMyw2LjJaTTEzMy43LDE1LjZjLS42LS42LTEuNS0xLTIuOS0xcy0yLjQuNC0zLjQsMS4yYy0xLC44LTEuNywyLjEtMi4xLDMuOSwwLDAsMCwuMy0uMS42LDAsMCwzLjUsMCw2LjIsMCwxLjYsMCwyLjUtLjQsMi44LTEuOC4yLTEuMiwwLTIuMi0uNS0yLjhaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNODIuMyw0Mi4yYy0xLDAtMS40LS40LTEuMy0xLjJzLjktMS40LDIuNi0xLjVoMHMwLDAsMCwwYzAtLjQsMC0uNSwwLS42LDAtLjEtLjItLjItLjUtLjItLjUsMC0uOS4xLTEuNS41aC0uMmMwLC4xLjItLjguMi0uOGgwYy42LS4zLDEuMi0uNSwxLjgtLjVzMSwuMiwxLjEuNmMwLC4yLDAsLjUsMCwxbC0uNSwyLjZoLS4yYy0uNy4xLTEuMi4yLTEuNi4yWk04My41LDQwLjJjLTEuMiwwLTEuNC4zLTEuNS43cy4xLjUuNS41LjQsMCwuOCwwbC4yLTEuMVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik04NS40LDQyLjFsLjctNC4yaDFsLS43LDQuMmgtMVpNODYuMiwzNy4ybC4yLTEuMWgxLjFsLS4yLDEuMWgtMS4xWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTg4LjgsNDIuMmMtLjQsMC0uNywwLTEuMi0uMmgwcy4yLTEsLjItMWguMWMuMy40LjYuNSwxLC41cy43LS4yLjgtLjQsMC0uMy0uMi0uNGMwLDAtLjItLjEtLjUtLjMtLjctLjQtMS0uNy0uOS0xLjJzLjktMS4zLDEuOS0xLjMuNywwLDEuMS4yaDBzLS4yLDEtLjIsMWgtLjFjLS4zLS4zLS42LS40LS45LS40cy0uNy4yLS44LjQsMCwuMy42LjZjLjQuMi42LjMuOC41LjIuMi4zLjUuMi44LS4xLjgtLjksMS4zLTEuOSwxLjNaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNOTUuOSw0NC4ybC40LTIuMWMtLjMsMC0uNSwwLS44LDAtMS40LDAtMi4xLS44LTEuOS0yLjFzMS40LTIuMywzLjEtMi4zLjgsMCwxLjMuMWgwcy0xLjEsNi4yLTEuMSw2LjJoLTFaTTk2LjQsMzguNmMtMSwwLTEuNi41LTEuOCwxLjQtLjIuOS4yLDEuMywxLjIsMS4zcy40LDAsLjYsMGwuNS0yLjZjLS4yLDAtLjMsMC0uNCwwWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEwMC40LDQyLjFjLS43LDAtMS4xLS4xLTEuNC0uNC0uMy0uMy0uMy0uNi0uMi0xLjNsLjUtMi42aDFsLS40LDIuNmMtLjEuNywwLC45LjguOXMuNSwwLC43LDBsLjYtMy40aDFsLS43LDQuMWgwYy0uOC4xLTEuMy4yLTEuOC4yWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEwNS42LDQyLjJjLTEuNCwwLTIuMS0uOC0xLjktMi4xczEuMy0yLjMsMi42LTIuMywxLjIuMywxLjUuOGMuMi4zLjIuNywwLDEuM3YuM2gtMy4yczAsMCwwLDBjLS4xLjcuMywxLjIsMS4yLDEuMnMxLS4xLDEuNS0uNWguMmMwLS4xLS4yLjgtLjIuOGgwYy0uNS4zLTEuMS41LTEuNy41Wk0xMDYuOSwzOS40YzAtLjUtLjMtLjgtLjgtLjhzLTEsLjMtMS4yLjhoMloiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMTAuNyw0Mi4xbC42LTMuM2gtLjd2LS44aC44Yy4yLTEsLjQtMS41LjktMS45LjQtLjMuOS0uNSwxLjQtLjVzLjMsMCwuNCwwaDBzLS4xLjgtLjEuOGgtLjFjLS4xLDAtLjIsMC0uMywwLS4zLDAtLjYuMS0uOC4zLS4yLjItLjMuNS0uNCwxLjFoMGMwLDAsMS4xLDAsMS4xLDB2LjhoLTEuMmwtLjYsMy4zaC0xWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTExNC45LDQyLjJjLTEsMC0xLjQtLjQtMS4zLTEuMnMuOS0xLjQsMi42LTEuNWgwczAsMCwwLDBjMC0uNCwwLS41LDAtLjYsMC0uMS0uMi0uMi0uNS0uMi0uNSwwLS45LjEtMS41LjVoLS4yYzAsLjEuMi0uOC4yLS44aDBjLjYtLjMsMS4yLS41LDEuOC0uNXMxLC4yLDEuMS42YzAsLjIsMCwuNSwwLDFsLS41LDIuNmgtLjJjLS43LjEtMS4yLjItMS42LjJaTTExNi4xLDQwLjJjLTEuMiwwLTEuNC4zLTEuNS43cy4xLjUuNS41LjQsMCwuOCwwbC4yLTEuMVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMTgsNDIuMWwuNy0zLjloMGMuNi0uMiwxLjItLjMsMS44LS4zcy41LDAsLjguMWgwcy0uMS45LS4xLjloLS4xYy0uMi0uMS0uNC0uMi0uNy0uMnMtLjUsMC0uOC4ybC0uNiwzLjNoLTFaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTI2LjgsNDIuMWwuNS0yLjdjLjEtLjYsMC0uOC0uNy0uOHMtLjUsMC0uOC4xYzAsLjIsMCwuMywwLC42bC0uNSwyLjdoLTFsLjUtMi43Yy4xLS42LDAtLjgtLjctLjhzLS41LDAtLjguMWwtLjYsMy40aC0xbC43LTRoMGMuNy0uMiwxLjQtLjMsMi0uM3MuOCwwLDEuMi4zYy41LS4yLDEtLjMsMS41LS4zczEuMS4yLDEuMy41Yy4yLjIuMy42LjIsMS4xbC0uNSwyLjdoLTFaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzguNiw0Mi4xbC41LTIuN2MuMS0uNiwwLS44LS43LS44cy0uNSwwLS44LjFjMCwuMiwwLC4zLDAsLjZsLS41LDIuN2gtMWwuNS0yLjdjLjEtLjYsMC0uOC0uNy0uOHMtLjUsMC0uOC4xbC0uNiwzLjRoLTFsLjctNGgwYy43LS4yLDEuNC0uMywyLS4zcy44LDAsMS4yLjNjLjUtLjIsMS0uMywxLjUtLjNzMS4xLjIsMS4zLjVjLjIuMi4zLjYuMiwxLjFsLS41LDIuN2gtMVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMzAuMyw0Mi4yYy0xLDAtMS40LS40LTEuMy0xLjJzLjktMS40LDIuNi0xLjVoMHMwLDAsMCwwYzAtLjQsMC0uNSwwLS42LDAtLjEtLjItLjItLjUtLjItLjUsMC0uOS4xLTEuNS41aC0uMmMwLC4xLjItLjguMi0uOGgwYy42LS4zLDEuMi0uNSwxLjgtLjVzMSwuMiwxLjEuNmMwLC4yLDAsLjUsMCwxbC0uNSwyLjZoLS4yYy0uNy4xLTEuMi4yLTEuNi4yWk0xMzEuNSw0MC4yYy0xLjIsMC0xLjQuMy0xLjUuN3MuMS41LjUuNS40LDAsLjgsMGwuMi0xLjFaTTEzMC44LDM3LjRsMS45LTEuOGgxYzAsMC0yLjEsMS45LTIuMSwxLjloLS43WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEzNS40LDQyLjJjLTEuNCwwLTIuMi0uOC0xLjktMi4xczEuMy0yLjMsMi44LTIuMy43LDAsMS4xLjJoMHMtLjIsMS0uMiwxaC0uMWMtLjMtLjMtLjUtLjQtLjktLjQtLjksMC0xLjUuNS0xLjYsMS40cy4zLDEuNCwxLjEsMS40LjcsMCwxLjEtLjNoLjJjMCwwLS4yLjgtLjIuOGgwYy0uNS4yLS44LjMtMS4zLjNaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTM3LjYsNDIuMWwuNy00LjJoMWwtLjcsNC4yaC0xWk0xMzguNCwzNy4ybC4yLTEuMWgxLjFsLS4yLDEuMWgtMS4xWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE0MS4yLDQyLjJjLTEsMC0xLjQtLjQtMS4zLTEuMnMuOS0xLjQsMi42LTEuNWgwczAsMCwwLDBjMC0uNCwwLS41LDAtLjYsMC0uMS0uMi0uMi0uNS0uMi0uNSwwLS45LjEtMS41LjVoLS4yYzAsLjEuMi0uOC4yLS44aDBjLjYtLjMsMS4yLS41LDEuOC0uNXMxLC4yLDEuMS42YzAsLjIsMCwuNSwwLDFsLS41LDIuNmgtLjJjLS43LjEtMS4yLjItMS42LjJaTTE0Mi40LDQwLjJjLTEuMiwwLTEuNC4zLTEuNS43cy4xLjUuNS41LjQsMCwuOCwwbC4yLTEuMVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00MiwyMi40bC0yLjEsOS45YzQuOC0xLjcsOC40LTUuNCw5LjMtOS45aC03LjJaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNDMuNCwxNmg1LjRjLS44LTIuMi0yLjItNC4yLTQuMS01LjdsLTEuMiw1LjdaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMzQuMSwyNy44Yy41LTEuNiwxLjEtNC4zLDYuMi01LjIuNCwwLC40LS4yLDAtLjItLjYsMC0xNi4zLDAtMTYuMywwLC4yLS45LjctMy41LDEtNC41LjQtMS42LDEuMi0xLjksMi43LTEuOWg4LjlsMi04LjhjLTEuNS0uNC0zLjEtLjYtNC44LS42LTguNiwwLTE1LjUsNi0xNS41LDEzLjNzNi40LDEyLjgsMTQuNSwxMy4zbDEuMi01LjRaIi8+PC9nPjwvc3ZnPg==" alt="Farmácias Nissei">
+    <div class="header-copy">
+      <h1>Dossiê de Instrução Pré-Inventário</h1>
+      <small>Preparação, orientação e validação da filial para o inventário</small>
+    </div>
+  </div>
+  <div class="clock" id="clock"></div>
+</header>
+
+<section id="authView" class="auth card">
+  <div class="brand">
+    <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJDYW1hZGFfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTYxLjMgNTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojZWUzYTQyO30uY2xzLTEsLmNscy0yLC5jbHMtMywuY2xzLTR7c3Ryb2tlLXdpZHRoOjBweDt9LmNscy0ye2ZpbGw6I2ZmZjt9LmNscy0ze2ZpbGw6I2VmYzMwYTt9LmNscy00e2ZpbGw6IzAwNWI4Zjt9PC9zdHlsZT48L2RlZnM+PGcgaWQ9IkNhbWFkYV8xLTIiPjxwYXRoIGNsYXNzPSJjbHMtMyIgZD0iTTE0NC40LDUxSDYuOGMtNC4yLDAtNy40LTMuNy02LjctNy44TDUuNCwxMC4zYy42LTQuMiw0LjItNy4zLDguNC03LjNoMTM3LjljNC4yLDAsNy4xLDMuNyw2LjQsNy44bC01LjQsMzIuOWMtLjYsNC4yLTQuMiw3LjMtOC40LDcuM1oiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0xNDcuNCw0OEg5LjhjLTQuMiwwLTcuNC0zLjctNi43LTcuOEw4LjQsNy4zQzksMy4xLDEyLjYsMCwxNi44LDBoMTM3LjljNC4yLDAsNy4xLDMuNyw2LjQsNy44bC01LjQsMzIuOWMtLjYsNC4yLTQuMiw3LjMtOC40LDcuM1oiLz48cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Ik0xMDAuOSwxNWMwLC4yLS4yLjMtLjMuMy0uMSwwLDAsMCwwLDAsMCwwLS4xLDAtLjIsMC0uOS0uMS0xLjgtLjItMi44LS4zLS45LDAtMS45LS4xLTIuOC0uMXMtMS43LjEtMi4yLjNjLS42LjItLjkuNy0xLDEuNS0uMS42LDAsMS4xLjQsMS4zLjMuMi44LjUsMS40LjhsMy4yLDEuNGMxLjQuNiwyLjUsMS40LDMuMSwyLjQuNywxLC45LDIuMi42LDMuNy0uMywyLTEuMiwzLjQtMi44LDQuNS0xLjYsMS4xLTMuNiwxLjYtNiwxLjZzLTIuNywwLTMuOS0uMmMtMS4yLS4yLTIuNC0uNC0zLjYtLjctLjMsMC0uNC0uMi0uNC0uNmwuNS0zczAsMCwwLDBjMC0uMi4yLS4zLjQtLjMuMSwwLDAsMCwuMSwwLDEsLjEsMi4xLjIsMy4zLjMsMS4yLDAsMi40LjEsMy40LjFzMS45LS4xLDIuNC0uNGMuNi0uMy45LS44LDEtMS41LDAtLjYsMC0xLjEtLjQtMS40LS4zLS4zLS44LS42LTEuNC0uOWwtMy0xLjNjLTEuNS0uNi0yLjYtMS40LTMuMy0yLjMtLjctLjktLjktMi4xLS43LTMuNi4yLTEuMS41LTIsMS0yLjcuNS0uOCwxLjEtMS40LDEuOS0xLjkuNy0uNSwxLjYtLjgsMi42LTEuMSwxLS4yLDIuMS0uMywzLjItLjNzMi4zLDAsMy40LjJjMS4xLjIsMi4xLjQsMi45LjcuMiwwLC41LjIuNC42bC0uNSwzczAsMCwwLC4xWk0xMTguMywxMS40Yy0uOC0uMy0xLjgtLjUtMi45LS43LTEuMS0uMi0yLjMtLjItMy40LS4ycy0yLjIuMS0zLjIuM2MtMSwuMi0xLjkuNi0yLjYsMS4xLS43LjUtMS40LDEuMS0xLjksMS45LS41LjctLjgsMS43LTEsMi43LS4yLDEuNSwwLDIuNy43LDMuNi43LjksMS44LDEuNywzLjMsMi4zbDMsMS4zYy42LjMsMS4xLjYsMS40LjkuNC4zLjUuOC40LDEuNC0uMS43LS41LDEuMi0xLDEuNS0uNi4zLTEuMy40LTIuNC40cy0yLjEsMC0zLjQtLjFjLTEuMiwwLTIuMy0uMi0zLjMtLjMsMCwwLDAsMC0uMSwwLS4yLDAtLjMuMS0uNC4zLDAsLjIsMCwwLDAsMGwtLjUsM2MwLC4zLDAsLjUuNC42LDEuMS4zLDIuMy41LDMuNi43LDEuMi4yLDIuNi4yLDMuOS4yLDIuNCwwLDQuNC0uNSw2LTEuNiwxLjYtMS4xLDIuNS0yLjUsMi44LTQuNS4yLTEuNSwwLTIuNy0uNi0zLjctLjctMS0xLjctMS44LTMuMS0yLjRsLTMuMi0xLjRjLS42LS4zLTEuMS0uNS0xLjQtLjgtLjQtLjMtLjUtLjctLjQtMS4zLjEtLjcuNS0xLjIsMS0xLjUuNS0uMiwxLjItLjMsMi4yLS4zczEuOSwwLDIuOC4xYy45LDAsMS45LjIsMi44LjMsMCwwLDAsMCwuMiwwczAsMCwwLDBjLjEsMCwuMy0uMS4zLS4zczAsMCwwLS4xbC41LTNjMC0uNC0uMi0uNS0uNC0uNlpNODEuOSwxNi41aC0zLjRjMCwwLS4xLDAsMCwwLDEuNi0uMiw0LjgtMS41LDUuMS0zLjYuMS0uOC4yLTIuMS0xLjQtMi4xaC0yLjZjLS41LDAtMS4yLjQtMS4zLDEuMWwtMy4xLDE4LjdjLS4yLDEsLjEsMS40LjYsMS40aDMuN2MuNSwwLDEtLjQsMS0uOWwuNC0yLjJzMS02LjEsMS44LTExLjFjLjEtLjgtLjQtMS4yLTEuMS0xLjJaTTE0OC4xLDEyLjljLjEtLjguMi0yLjEtMS40LTIuMWgtMi42Yy0uNSwwLTEuMi40LTEuMywxLjFsLTMuMSwxOC43Yy0uMiwxLC4xLDEuNC42LDEuNGgzLjdjLjUsMCwxLS40LDEtLjlsLjQtMi4yczEtNi4xLDEuOC0xMS4xYy4xLS44LS40LTEuMi0xLjEtMS4yaC0zLjRjMCwwLS4xLDAsMCwwLDEuNi0uMiw0LjgtMS41LDUuMS0zLjZaTTY3LjksMTAuOWMtMi4yLDAtMTIuNiwwLTE0LjMsMC0uOSwwLTEuMy42LTEuNCwxLjUtLjEuOC0uMywxLjktLjQsMi42LS4xLjcuMiwxLC45LDFzLjgsMCwxLjIsMGMxLjksMCw0LjMsMCw0LjUsMCwuNCwwLC4xLjEsMCwuMi0uOS4zLTMuNywyLTQuMyw1LjktLjEuNy0xLjQsOC41LTEuNCw4LjUsMCwuMiwwLC4zLDAsLjUsMCwuNy40LjkuNy45aDIuOXMwLDAsLjMsMGMxLjEsMCwxLjQtLjMsMS42LTEuNC4zLTEuNiwyLjItMTMuNiwyLjQtMTQuNS45LDAsMS45LDAsMy40LDAsMS41LDAsMy40LS4xLDQuMiwxLC44LDEuMS42LDIuMy40LDQuMSwwLDAtMS42LDkuNS0xLjYsOS41LDAsLjIsMCwuMywwLC41LDAsLjcuNC45LjcuOWgyLjlzMCwwLC4zLDBjMS4xLDAsMS40LS4zLDEuNi0xLjQsMC0uNCwyLTEyLDIuMS0xMi44LjktNS40LTQuMi02LjktNi40LTYuOVpNMTM5LjUsMTkuMmMtLjMsMS41LS45LDIuNi0yLjEsMy40LTEuMi43LTIuNywxLjEtNC42LDEuMSwwLDAtMy45LjItNS45LS4zLTEuMi0uMy0xLjUtMi4xLTEuNy0yLjctLjUsMi4xLS40LDMuNS0uNCwzLjUsMCwxLjUuNSwyLjYsMS41LDMuMi45LjYsMi4yLjksMy45LjlzMi4xLDAsMy4yLS4xYzEuMSwwLDEuNy0uMSwyLjYtLjMsMCwwLDAsMCwuMSwwLC4yLDAsLjQsMCwuNC40bC0uNCwyLjZjMCwuMi0uMS4zLS40LjQtMS4xLjMtMi4yLjUtMy40LjctMS4yLjItMi40LjItMy41LjItMiwwLTMuNi0uMi00LjktLjctMS4zLS40LTIuMy0xLjEtMy0yLS43LS45LTEuMi0xLjktMS4zLTMuMi0uMi0xLjMtLjItMi43LjEtNC40bC4yLTEuM2MuNS0zLjEsMS43LTUuNSwzLjYtNy4zLDEuOS0xLjgsNC42LTIuNiw4LjEtMi42czUuMy44LDYuNiwyLjNjMS4zLDEuNSwxLjcsMy42LDEuMyw2LjJaTTEzMy43LDE1LjZjLS42LS42LTEuNS0xLTIuOS0xcy0yLjQuNC0zLjQsMS4yYy0xLC44LTEuNywyLjEtMi4xLDMuOSwwLDAsMCwuMy0uMS42LDAsMCwzLjUsMCw2LjIsMCwxLjYsMCwyLjUtLjQsMi44LTEuOC4yLTEuMiwwLTIuMi0uNS0yLjhaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNODIuMyw0Mi4yYy0xLDAtMS40LS40LTEuMy0xLjJzLjktMS40LDIuNi0xLjVoMHMwLDAsMCwwYzAtLjQsMC0uNSwwLS42LDAtLjEtLjItLjItLjUtLjItLjUsMC0uOS4xLTEuNS41aC0uMmMwLC4xLjItLjguMi0uOGgwYy42LS4zLDEuMi0uNSwxLjgtLjVzMSwuMiwxLjEuNmMwLC4yLDAsLjUsMCwxbC0uNSwyLjZoLS4yYy0uNy4xLTEuMi4yLTEuNi4yWk04My41LDQwLjJjLTEuMiwwLTEuNC4zLTEuNS43cy4xLjUuNS41LjQsMCwuOCwwbC4yLTEuMVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik04NS40LDQyLjFsLjctNC4yaDFsLS43LDQuMmgtMVpNODYuMiwzNy4ybC4yLTEuMWgxLjFsLS4yLDEuMWgtMS4xWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTg4LjgsNDIuMmMtLjQsMC0uNywwLTEuMi0uMmgwcy4yLTEsLjItMWguMWMuMy40LjYuNSwxLC41cy43LS4yLjgtLjQsMC0uMy0uMi0uNGMwLDAtLjItLjEtLjUtLjMtLjctLjQtMS0uNy0uOS0xLjJzLjktMS4zLDEuOS0xLjMuNywwLDEuMS4yaDBzLS4yLDEtLjIsMWgtLjFjLS4zLS4zLS42LS40LS45LS40cy0uNy4yLS44LjQsMCwuMy42LjZjLjQuMi42LjMuOC41LjIuMi4zLjUuMi44LS4xLjgtLjksMS4zLTEuOSwxLjNaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNOTUuOSw0NC4ybC40LTIuMWMtLjMsMC0uNSwwLS44LDAtMS40LDAtMi4xLS44LTEuOS0yLjFzMS40LTIuMywzLjEtMi4zLjgsMCwxLjMuMWgwcy0xLjEsNi4yLTEuMSw2LjJoLTFaTTk2LjQsMzguNmMtMSwwLTEuNi41LTEuOCwxLjQtLjIuOS4yLDEuMywxLjIsMS4zcy40LDAsLjYsMGwuNS0yLjZjLS4yLDAtLjMsMC0uNCwwWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEwMC40LDQyLjFjLS43LDAtMS4xLS4xLTEuNC0uNC0uMy0uMy0uMy0uNi0uMi0xLjNsLjUtMi42aDFsLS40LDIuNmMtLjEuNywwLC45LjguOXMuNSwwLC43LDBsLjYtMy40aDFsLS43LDQuMWgwYy0uOC4xLTEuMy4yLTEuOC4yWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEwNS42LDQyLjJjLTEuNCwwLTIuMS0uOC0xLjktMi4xczEuMy0yLjMsMi42LTIuMywxLjIuMywxLjUuOGMuMi4zLjIuNywwLDEuM3YuM2gtMy4yczAsMCwwLDBjLS4xLjcuMywxLjIsMS4yLDEuMnMxLS4xLDEuNS0uNWguMmMwLS4xLS4yLjgtLjIuOGgwYy0uNS4zLTEuMS41LTEuNy41Wk0xMDYuOSwzOS40YzAtLjUtLjMtLjgtLjgtLjhzLTEsLjMtMS4yLjhoMloiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMTAuNyw0Mi4xbC42LTMuM2gtLjd2LS44aC44Yy4yLTEsLjQtMS41LjktMS45LjQtLjMuOS0uNSwxLjQtLjVzLjMsMCwuNCwwaDBzLS4xLjgtLjEuOGgtLjFjLS4xLDAtLjIsMC0uMywwLS4zLDAtLjYuMS0uOC4zLS4yLjItLjMuNS0uNCwxLjFoMGMwLDAsMS4xLDAsMS4xLDB2LjhoLTEuMmwtLjYsMy4zaC0xWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTExNC45LDQyLjJjLTEsMC0xLjQtLjQtMS4zLTEuMnMuOS0xLjQsMi42LTEuNWgwczAsMCwwLDBjMC0uNCwwLS41LDAtLjYsMC0uMS0uMi0uMi0uNS0uMi0uNSwwLS45LjEtMS41LjVoLS4yYzAsLjEuMi0uOC4yLS44aDBjLjYtLjMsMS4yLS41LDEuOC0uNXMxLC4yLDEuMS42YzAsLjIsMCwuNSwwLDFsLS41LDIuNmgtLjJjLS43LjEtMS4yLjItMS42LjJaTTExNi4xLDQwLjJjLTEuMiwwLTEuNC4zLTEuNS43cy4xLjUuNS41LjQsMCwuOCwwbC4yLTEuMVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMTgsNDIuMWwuNy0zLjloMGMuNi0uMiwxLjItLjMsMS44LS4zcy41LDAsLjguMWgwcy0uMS45LS4xLjloLS4xYy0uMi0uMS0uNC0uMi0uNy0uMnMtLjUsMC0uOC4ybC0uNiwzLjNoLTFaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTI2LjgsNDIuMWwuNS0yLjdjLjEtLjYsMC0uOC0uNy0uOHMtLjUsMC0uOC4xYzAsLjIsMCwuMywwLC42bC0uNSwyLjdoLTFsLjUtMi43Yy4xLS42LDAtLjgtLjctLjhzLS41LDAtLjguMWwtLjYsMy40aC0xbC43LTRoMGMuNy0uMiwxLjQtLjMsMi0uM3MuOCwwLDEuMi4zYy41LS4yLDEtLjMsMS41LS4zczEuMS4yLDEuMy41Yy4yLjIuMy42LjIsMS4xbC0uNSwyLjdoLTFaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzguNiw0Mi4xbC41LTIuN2MuMS0uNiwwLS44LS43LS44cy0uNSwwLS44LjFjMCwuMiwwLC4zLDAsLjZsLS41LDIuN2gtMWwuNS0yLjdjLjEtLjYsMC0uOC0uNy0uOHMtLjUsMC0uOC4xbC0uNiwzLjRoLTFsLjctNGgwYy43LS4yLDEuNC0uMywyLS4zcy44LDAsMS4yLjNjLjUtLjIsMS0uMywxLjUtLjNzMS4xLjIsMS4zLjVjLjIuMi4zLjYuMiwxLjFsLS41LDIuN2gtMVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMzAuMyw0Mi4yYy0xLDAtMS40LS40LTEuMy0xLjJzLjktMS40LDIuNi0xLjVoMHMwLDAsMCwwYzAtLjQsMC0uNSwwLS42LDAtLjEtLjItLjItLjUtLjItLjUsMC0uOS4xLTEuNS41aC0uMmMwLC4xLjItLjguMi0uOGgwYy42LS4zLDEuMi0uNSwxLjgtLjVzMSwuMiwxLjEuNmMwLC4yLDAsLjUsMCwxbC0uNSwyLjZoLS4yYy0uNy4xLTEuMi4yLTEuNi4yWk0xMzEuNSw0MC4yYy0xLjIsMC0xLjQuMy0xLjUuN3MuMS41LjUuNS40LDAsLjgsMGwuMi0xLjFaTTEzMC44LDM3LjRsMS45LTEuOGgxYzAsMC0yLjEsMS45LTIuMSwxLjloLS43WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEzNS40LDQyLjJjLTEuNCwwLTIuMi0uOC0xLjktMi4xczEuMy0yLjMsMi44LTIuMy43LDAsMS4xLjJoMHMtLjIsMS0uMiwxaC0uMWMtLjMtLjMtLjUtLjQtLjktLjQtLjksMC0xLjUuNS0xLjYsMS40cy4zLDEuNCwxLjEsMS40LjcsMCwxLjEtLjNoLjJjMCwwLS4yLjgtLjIuOGgwYy0uNS4yLS44LjMtMS4zLjNaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTM3LjYsNDIuMWwuNy00LjJoMWwtLjcsNC4yaC0xWk0xMzguNCwzNy4ybC4yLTEuMWgxLjFsLS4yLDEuMWgtMS4xWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE0MS4yLDQyLjJjLTEsMC0xLjQtLjQtMS4zLTEuMnMuOS0xLjQsMi42LTEuNWgwczAsMCwwLDBjMC0uNCwwLS41LDAtLjYsMC0uMS0uMi0uMi0uNS0uMi0uNSwwLS45LjEtMS41LjVoLS4yYzAsLjEuMi0uOC4yLS44aDBjLjYtLjMsMS4yLS41LDEuOC0uNXMxLC4yLDEuMS42YzAsLjIsMCwuNSwwLDFsLS41LDIuNmgtLjJjLS43LjEtMS4yLjItMS42LjJaTTE0Mi40LDQwLjJjLTEuMiwwLTEuNC4zLTEuNS43cy4xLjUuNS41LjQsMCwuOCwwbC4yLTEuMVoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00MiwyMi40bC0yLjEsOS45YzQuOC0xLjcsOC40LTUuNCw5LjMtOS45aC03LjJaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNDMuNCwxNmg1LjRjLS44LTIuMi0yLjItNC4yLTQuMS01LjdsLTEuMiw1LjdaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMzQuMSwyNy44Yy41LTEuNiwxLjEtNC4zLDYuMi01LjIuNCwwLC40LS4yLDAtLjItLjYsMC0xNi4zLDAtMTYuMywwLC4yLS45LjctMy41LDEtNC41LjQtMS42LDEuMi0xLjksMi43LTEuOWg4LjlsMi04LjhjLTEuNS0uNC0zLjEtLjYtNC44LS42LTguNiwwLTE1LjUsNi0xNS41LDEzLjNzNi40LDEyLjgsMTQuNSwxMy4zbDEuMi01LjRaIi8+PC9nPjwvc3ZnPg==" alt="Farmácias Nissei">
+    <h2>Acesso interno</h2>
+    <p>Área exclusiva para Admin e Auditor.</p>
+  </div>
+  <div id="authMsg"></div>
+  <label>E-mail</label>
+  <input id="email" type="email" autocomplete="username" placeholder="seu e-mail">
+  <label style="margin-top:12px">Senha</label>
+  <input id="password" type="password" autocomplete="current-password" placeholder="Sua senha">
+  <div class="actions">
+    <button class="primary" id="loginBtn">Entrar</button>
+    <button class="secondary" id="managerBtn">Abrir dossiê pelo link</button>
+  </div>
+  <p class="small muted">Gestores não precisam de login. O acesso do gestor é feito pelo link individual do dossiê.</p>
+</section>
+
+<div style="display:flex;justify-content:flex-end;max-width:1200px;margin:12px auto;gap:10px;flex-wrap:wrap;"><button type="button" class="secondary-btn v6-account-button" onclick="openAccountPanel()">👤 Minha conta</button><button type="button" class="primary hidden" id="adminPanelBtn" onclick="openAdminPanel()">👑 Administração</button></div>
+<main id="internalView" class="hidden">
+  <div class="topbar">
+    <div>
+      <span class="tag" id="roleTag">—</span>
+      <strong id="userName">—</strong>
+    </div>
+    <button class="secondary" id="logoutBtn">Sair</button>
+  </div>
+
+  <section id="auditorPanel" class="card hidden">
+    <h2>Criar novo dossiê</h2>
+    <p class="intro">Informe o número e o nome da filial. O sistema gera um link seguro e exclusivo para o gestor.</p>
+    <div id="createMsg"></div>
+    <div class="grid">
+      <div><label>Número da filial</label><input id="filialNumero" type="number" min="1" placeholder="Ex.: 973"></div>
+      <div><label>Nome da filial</label><input id="filialNome" placeholder="Ex.: CD Colombo"></div>
+      <div><label>Data do inventário</label><input id="dataInventario" type="date"></div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="createBtn">Criar dossiê</button>
+    </div>
+    <div id="linkBox" class="notice hidden"></div>
+  </section>
+
+  <section class="card">
+    <h2>Meus dossiês</h2>
+    <p class="intro">O Auditor vê somente os dossiês que criou. O Admin pode administrar todos.</p>
+    <div id="dossierList" class="dossier-list"></div>
+  </section>
+</main>
+
+<main id="managerView" class="hidden">
+  <section class="card manager-hero">
+    <div class="topbar">
+      <div>
+        <h2 id="managerTitle">Dossiê</h2>
+        <div class="muted" id="managerMeta"></div>
+      </div>
+      <span class="tag" id="managerStatus">—</span>
+    </div>
+    <div id="managerMsg"></div>
+  </section>
+
+  <section class="card">
+    <h2>Progresso</h2>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="pct" id="pct">0% concluído</div>
+    <div class="notice">O gestor pode preencher e salvar durante a semana. A finalização e o envio ficam disponíveis somente no dia do inventário, até 16:00.</div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="section-number">1</span> Parte sistêmica</h2>
+    <p class="intro">Regularize as pendências e anexe a evidência. Se não for possível concluir por erro sistêmico ou situação maior, registre o chamado e sua evidência.</p>
+    <div id="sistemica"></div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="section-number">2</span> Organização física</h2>
+    <p class="intro"><b>As fotos devem representar a condição da filial no momento da validação final.</b></p>
+    <div id="organizacao"></div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><span class="section-number">3</span> Validação final</h2>
+    <div class="item">
+      <div class="checkrow">
+        <input id="declaracao" type="checkbox">
+        <span><b>Declaração do gestor:</b> confirmo que realizei as verificações e preparei a filial para o inventário, regularizando as pendências ou formalizando as situações não solucionadas por meio de chamado.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div id="finalStatus" class="notice"></div>
+    <div class="actions">
+      <button class="secondary" id="saveBtn">Salvar progresso</button>
+      <button class="primary" id="finalizeBtn">Finalizar e enviar dossiê</button>
+    </div>
+    <div id="result" class="hidden"></div>
+  </section>
+</main>
+
+<footer>Dossiê de Instrução Pré-Inventário — V6.2 · Supabase + GitHub Pages</footer>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL = "https://skfpqaxbypryztznakke.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Cdgo8O0bLb1Jd1uTuhlp1A_qTJpbbXj";
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const sis = [
+ ["notas","Resolução de notas — terceiros","Verificar e regularizar notas pendentes de terceiros."],
+ ["transferencias","Resolução de notas — transferências/CD","Verificar e regularizar pendências de transferências e/ou CD."],
+ ["caixa","Fechamento de caixa","Garantir que todos os caixas estejam finalizados e com o fechamento realizado."],
+ ["consolidacao","Consolidação","Realizar a consolidação do movimento da filial."],
+ ["passos45","Passos 4 e 5","Executar e finalizar os Passos 4 e 5 conforme procedimento."],
+ ["vencidos","Retirada de vencidos","Realizar a retirada/regularização dos produtos vencidos."]
+];
+
+const org = [
+ ["medicamentos","Medicamentos","Organizar respeitando o espaçamento da esquerda para a direita."],
+ ["perfumaria","Perfumaria","Alinhar em fila os produtos do mesmo código de barras."],
+ ["conveniencia","Conveniência","Alinhar em fila os produtos do mesmo código de barras."],
+ ["carteladosCodigo","Cartelados — código interno","Garantir a identificação com código interno."],
+ ["carteladosElastico","Cartelados — amarração","Realizar amarração com elástico a cada 10 unidades."],
+ ["esmaltes","Perfilados de esmaltes","Organizar os perfilados no padrão de esmalteria."]
+];
+
+let currentDossier = null;
+let currentRole = null;
+let currentProfile = null;
+let managerMode = false;
+
+const $ = id => document.getElementById(id);
+const todayISO = () => new Date().toISOString().slice(0,10);
+const nowText = () => new Date().toLocaleString("pt-BR");
+
+function escapeHtml(v){
+  return String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function itemHtml(x,type){
+  return `<div class="item" data-id="${x[0]}" data-type="${type}">
+    <h3>${escapeHtml(x[1])} <span class="status pending" id="st-${x[0]}">Pendente</span></h3>
+    <p>${escapeHtml(x[2])}</p>
+    <label>Observação / pendência</label>
+    <textarea id="obs-${x[0]}" placeholder="Descreva a situação, se necessário."></textarea>
+    ${type==="sis" ? `<div class="grid" style="margin-top:12px">
+      <div><label>Nº do chamado (se aplicável)</label><input id="ch-${x[0]}" placeholder="Ex.: 123456"></div>
+      <div><label>Evidência</label><input id="ev-${x[0]}" type="file" accept="image/*,.pdf"></div>
+    </div>` :
+    `<div style="margin-top:12px"><label>Foto da organização</label><input id="ev-${x[0]}" type="file" accept="image/*"></div>`}
+    <div class="checkrow" style="margin-top:12px">
+      <input id="ok-${x[0]}" type="checkbox">
+      <span>Conferi este item e considero a etapa preparada.</span>
+    </div>
+  </div>`;
+}
+
+$("sistemica").innerHTML = sis.map(x=>itemHtml(x,"sis")).join("");
+$("organizacao").innerHTML = org.map(x=>itemHtml(x,"org")).join("");
+
+function allChecks(){
+  return [...document.querySelectorAll('[id^="ok-"]')];
+}
+
+function updateProgress(){
+  const all = allChecks();
+  const total = all.length + 1;
+  const feitos = all.filter(x=>x.checked).length + ($("declaracao").checked ? 1 : 0);
+  const p = Math.round(feitos/total*100);
+  $("bar").style.width = p+"%";
+  $("pct").textContent = p+"% concluído";
+  document.querySelectorAll(".item[data-id]").forEach(el=>{
+    const c = $("ok-"+el.dataset.id), s = $("st-"+el.dataset.id);
+    if(c?.checked){s.textContent="Preparado";s.className="status ok";}
+    else{s.textContent="Pendente";s.className="status pending";}
+  });
+  updateDeadline();
+}
+
+function updateDeadline(){
+  if(!currentDossier) return;
+  const db = currentDossier.data_inventario;
+  const hoje = todayISO();
+  const hora = new Date().toTimeString().slice(0,5);
+  let pode = hoje === db && hora <= "16:00";
+  let texto = pode
+    ? "Hoje é o dia do inventário. A validação final pode ser enviada até 16:00."
+    : hoje < db
+      ? "Em preparação. O envio final será liberado no dia do inventário, até 16:00."
+      : "O prazo de envio está bloqueado para esta configuração.";
+  $("finalStatus").className = pode ? "notice" : "notice warning";
+  $("finalStatus").textContent = texto;
+  const total = allChecks().length + 1;
+  const feitos = allChecks().filter(x=>x.checked).length + ($("declaracao").checked ? 1 : 0);
+  $("finalizeBtn").disabled = !(pode && feitos === total);
+}
+
+function collectDraft(){
+  const itens = {};
+  document.querySelectorAll(".item[data-id]").forEach(el=>{
+    const id = el.dataset.id;
+    itens[id] = {
+      ok: $("ok-"+id)?.checked || false,
+      obs: $("obs-"+id)?.value || "",
+      chamado: $("ch-"+id)?.value || "",
+      arquivo: $("ev-"+id)?.files?.[0]?.name || ""
+    };
+  });
+  return {itens, declaracao:$("declaracao").checked, savedAt:nowText()};
+}
+
+function restoreDraft(){
+  if(!currentDossier) return;
+  const key = "dossie-v3-"+currentDossier.id;
+  const d = JSON.parse(localStorage.getItem(key) || "null");
+  if(!d) return;
+  Object.entries(d.itens||{}).forEach(([id,v])=>{
+    if($("ok-"+id)) $("ok-"+id).checked=!!v.ok;
+    if($("obs-"+id)) $("obs-"+id).value=v.obs||"";
+    if($("ch-"+id)) $("ch-"+id).value=v.chamado||"";
+  });
+  $("declaracao").checked=!!d.declaracao;
+}
+
+async function saveDraft(show=true){
+  if(!currentDossier) return;
+  const draft = collectDraft();
+  localStorage.setItem("dossie-v3-"+currentDossier.id, JSON.stringify(draft));
+
+  const rows = Object.entries(draft.itens).map(([item_id,v]) => ({
+    dossie_id: currentDossier.id,
+    item_id,
+    item_tipo: document.querySelector(`.item[data-id="${CSS.escape(item_id)}"]`)?.dataset.type || null,
+    ok: !!v.ok,
+    observacao: v.obs || null,
+    chamado: v.chamado || null,
+    arquivo_nome: v.arquivo || null,
+    atualizado_em: new Date().toISOString()
+  }));
+
+  const { error: itemsError } = await supabase
+    .from("dossie_respostas")
+    .upsert(rows, { onConflict: "dossie_id,item_id" });
+  if(itemsError){
+    console.error("Erro ao salvar respostas:", itemsError);
+    if(show) alert("O progresso local foi salvo, mas não foi possível salvar no servidor: " + itemsError.message);
+    return;
+  }
+
+  const { error: dossierError } = await supabase
+    .from("dossies")
+    .update({
+      atualizado_em: new Date().toISOString(),
+      status: currentDossier.status === "nao_iniciado" ? "em_andamento" : currentDossier.status,
+      iniciado_em: currentDossier.iniciado_em || new Date().toISOString()
+    })
+    .eq("id", currentDossier.id);
+  if(dossierError) console.error("Erro ao atualizar dossiê:", dossierError);
+  else currentDossier.status = currentDossier.status === "nao_iniciado" ? "em_andamento" : currentDossier.status;
+
+  if(show) alert("Progresso salvo com sucesso no servidor.");
+}
+
+async function loadSavedDraft(){
+  if(!currentDossier) return;
+  const {data,error}=await supabase
+    .from("dossie_respostas")
+    .select("item_id,item_tipo,ok,observacao,chamado,arquivo_nome")
+    .eq("dossie_id",currentDossier.id);
+  if(error){
+    console.error("Erro ao carregar respostas:",error);
+    restoreDraft();
+    return;
+  }
+  if(data?.length){
+    data.forEach(v=>{
+      const id=v.item_id;
+      if($("ok-"+id)) $("ok-"+id).checked=!!v.ok;
+      if($("obs-"+id)) $("obs-"+id).value=v.observacao||"";
+      if($("ch-"+id)) $("ch-"+id).value=v.chamado||"";
+    });
+    updateProgress();
+  } else {
+    restoreDraft();
+  }
+}
+
+async function login(){
+  $("authMsg").innerHTML="";
+  const email=$("email").value.trim(), password=$("password").value;
+  if(!email||!password){$("authMsg").innerHTML='<div class="error">Informe e-mail e senha.</div>';return;}
+  $("loginBtn").disabled=true;
+  const {error}=await supabase.auth.signInWithPassword({email,password});
+  $("loginBtn").disabled=false;
+  if(error){$("authMsg").innerHTML='<div class="error">'+escapeHtml(error.message)+'</div>';return;}
+  await showInternal();
+}
+
+async function showInternal(){
+  managerMode=false;
+  $("authView").classList.add("hidden");
+  $("managerView").classList.add("hidden");
+  $("internalView").classList.remove("hidden");
+  const {data:{user}}=await supabase.auth.getUser();
+  if(!user)return;
+  const {data:profile}=await supabase.from("profiles").select("nome,email,perfil").eq("user_id",user.id).maybeSingle();
+  currentProfile=profile || null;
+  currentRole=profile?.perfil || null;
+  $("roleTag").textContent=currentRole==="admin"?"👑 Admin":currentRole==="auditor"?"🕵️ Auditor":"⚠️ Perfil não cadastrado";
+  $("userName").textContent=profile?.nome || user.email || "";
+  $("auditorPanel").classList.toggle("hidden", !["admin","auditor"].includes(currentRole));
+  $("adminPanelBtn").classList.toggle("hidden", currentRole!=="admin");
+  await loadDossiers();
+}
+
+async function loadDossiers(){
+  $("dossierList").innerHTML="<div class='muted'>Carregando dossiês...</div>";
+  let query=supabase.from("dossies").select("id,numero_filial,nome_filial,data_inventario,status,criado_em,atualizado_em").order("criado_em",{ascending:false});
+  const {data,error}=await query;
+  if(error){$("dossierList").innerHTML='<div class="error">'+escapeHtml(error.message)+'</div>';return;}
+  if(!data?.length){$("dossierList").innerHTML="<div class='muted'>Nenhum dossiê encontrado.</div>";return;}
+  $("dossierList").innerHTML=data.map(d=>`
+    <div class="dossier-row">
+      <div><b>Filial ${escapeHtml(d.numero_filial)} — ${escapeHtml(d.nome_filial)}</b>
+      <div class="small muted">Inventário: ${new Date(d.data_inventario+"T00:00:00").toLocaleDateString("pt-BR")} · Status: ${escapeHtml(d.status)}</div>
+      <div class="small muted">Atualizado: ${new Date(d.atualizado_em).toLocaleString("pt-BR")}</div></div>
+      <div class="actions" style="margin-top:0">
+        <button class="secondary" data-open="${d.id}">Abrir</button>
+        <button class="primary" data-checklist="${d.id}">Checklist</button>
+        ${currentRole==="admin" ? `<button class="danger" data-delete="${d.id}">Excluir</button>` : ""}
+      </div>
+    </div>`).join("");
+  document.querySelectorAll("[data-open]").forEach(btn=>btn.onclick=()=>openInternalDossier(btn.dataset.open));
+  document.querySelectorAll("[data-checklist]").forEach(btn=>btn.onclick=()=>openInternalChecklist(btn.dataset.checklist));
+  document.querySelectorAll("[data-delete]").forEach(btn=>btn.onclick=()=>deleteDossier(btn.dataset.delete));
+}
+
+async function createDossier(){
+  $("createMsg").innerHTML="";
+  const n=parseInt($("filialNumero").value,10), nome=$("filialNome").value.trim(), data=$("dataInventario").value;
+  if(!n||!nome||!data){$("createMsg").innerHTML='<div class="error">Preencha número, nome e data do inventário.</div>';return;}
+  $("createBtn").disabled=true;
+  const {data:result,error}=await supabase.rpc("criar_dossie",{p_numero_filial:n,p_nome_filial:nome,p_data_inventario:data});
+  $("createBtn").disabled=false;
+  if(error){$("createMsg").innerHTML='<div class="error">'+escapeHtml(error.message)+'</div>';return;}
+  const row=result?.[0];
+  if(!row?.access_token){$("createMsg").innerHTML='<div class="error">O dossiê foi criado, mas o token não foi retornado.</div>';return;}
+  const url=new URL(location.href);
+  url.search="";
+  url.searchParams.set("token",row.access_token);
+  const link=url.toString();
+  $("linkBox").classList.remove("hidden");
+  $("linkBox").innerHTML=`<b>Dossiê criado com sucesso.</b><br><br>
+    <span class="small">Link seguro para o gestor:</span>
+    <input id="generatedLink" readonly value="${escapeHtml(link)}" style="margin-top:6px">
+    <div class="actions">
+      <button class="successBtn" id="copyLinkBtn">📋 Copiar link</button>
+      <button class="secondary" id="openLinkBtn">Abrir dossiê</button>
+    </div>`;
+  $("copyLinkBtn").onclick=async()=>{await navigator.clipboard.writeText(link);alert("Link copiado.");};
+  $("openLinkBtn").onclick=()=>location.href=link;
+  await loadDossiers();
+}
+
+async function deleteDossier(id){
+  if(currentRole!=="admin") return;
+  const ok=confirm("Excluir este dossiê? Esta ação não pode ser desfeita.");
+  if(!ok) return;
+  const {error}=await supabase.from("dossies").delete().eq("id",id);
+  if(error){alert("Não foi possível excluir: "+error.message);return;}
+  await loadDossiers();
+}
+
+async function openInternalDossier(id){
+  const {data,error}=await supabase.from("dossies").select("*").eq("id",id).maybeSingle();
+  if(error||!data){alert("Não foi possível abrir o dossiê.");return;}
+
+  const old = document.getElementById("internalDossierModal");
+  if(old) old.remove();
+
+  const inv = new Date(data.data_inventario+"T00:00:00").toLocaleDateString("pt-BR");
+  const criado = data.criado_em ? new Date(data.criado_em).toLocaleString("pt-BR") : "—";
+  const atualizado = data.atualizado_em ? new Date(data.atualizado_em).toLocaleString("pt-BR") : "—";
+  const iniciado = data.iniciado_em ? new Date(data.iniciado_em).toLocaleString("pt-BR") : "Ainda não iniciado";
+  const enviado = data.enviado_em ? new Date(data.enviado_em).toLocaleString("pt-BR") : "Ainda não enviado";
+
+  const modal=document.createElement("div");
+  modal.id="internalDossierModal";
+  modal.className="modal-backdrop";
+  modal.innerHTML=`
+    <div class="modal-card" style="max-width:760px">
+      <div class="modal-head">
+        <div><h2 style="margin:0">Dossiê — Filial ${escapeHtml(data.numero_filial)} — ${escapeHtml(data.nome_filial)}</h2>
+        <div class="small muted">Visão administrativa</div></div>
+        <button type="button" class="secondary" id="closeInternalDossier">Fechar</button>
+      </div>
+      <div class="grid" style="margin-top:18px">
+        <div class="info-box"><b>Data do inventário</b><br>${inv}</div>
+        <div class="info-box"><b>Status</b><br>${escapeHtml(data.status)}</div>
+        <div class="info-box"><b>Criado em</b><br>${criado}</div>
+        <div class="info-box"><b>Atualizado em</b><br>${atualizado}</div>
+        <div class="info-box"><b>Iniciado em</b><br>${iniciado}</div>
+        <div class="info-box"><b>Enviado em</b><br>${enviado}</div>
+      </div>
+      <div class="notice" style="margin-top:18px">
+        <b>Acesso do gestor</b><br>
+        O gestor acessa este dossiê pelo link seguro individual. A visão administrativa está separada do acesso do gestor.
+      </div>
+      <div class="actions" style="justify-content:flex-end;margin-top:18px">
+        <button type="button" class="secondary" id="closeInternalDossier2">Voltar para a lista</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  const close=()=>modal.remove();
+  document.getElementById("closeInternalDossier").onclick=close;
+  document.getElementById("closeInternalDossier2").onclick=close;
+  modal.addEventListener("click",e=>{if(e.target===modal)close();});
+}
+
+async function openInternalChecklist(id){
+  if(!["admin","auditor"].includes(currentRole)) return;
+  const {data:d,error:dError}=await supabase.from("dossies").select("id,numero_filial,nome_filial,data_inventario,status,atualizado_em").eq("id",id).maybeSingle();
+  if(dError||!d){alert("Não foi possível abrir o checklist.");return;}
+  const {data:rows,error:rError}=await supabase.from("dossie_respostas").select("item_id,item_tipo,ok,observacao,chamado,arquivo_nome,atualizado_em").eq("dossie_id",id);
+  if(rError){alert("Não foi possível carregar as respostas do gestor: "+rError.message);return;}
+  const map=Object.fromEntries((rows||[]).map(r=>[r.item_id,r]));
+  const all=[...sis.map(x=>({...x,tipo:"sis"})),...org.map(x=>({...x,tipo:"org"}))];
+  const done=all.filter(x=>map[x[0]]?.ok).length;
+  const total=all.length+1;
+  const declaration=done + 1; // shown separately below; actual declaration isn't in dossie_respostas yet
+  const pct=Math.round(done/all.length*100);
+  const modal=document.createElement("div");
+  modal.id="internalChecklistModal";
+  modal.className="modal-backdrop";
+  const esc=escapeHtml;
+  const itemRows=all.map((x,i)=>{
+    const r=map[x[0]]||{};
+    return `<div class="item" style="margin-top:12px">
+      <h3>${i+1}. ${esc(x[1])} <span class="status ${r.ok?"ok":"pending"}">${r.ok?"Preparado":"Pendente"}</span></h3>
+      <p>${esc(x[2])}</p>
+      ${r.observacao?`<div class="info-box"><b>Observação / pendência</b><br>${esc(r.observacao)}</div>`:""}
+      ${r.chamado?`<div class="info-box" style="margin-top:8px"><b>Nº do chamado</b><br>${esc(r.chamado)}</div>`:""}
+      ${r.arquivo_nome?`<div class="small muted" style="margin-top:8px">Evidência registrada: ${esc(r.arquivo_nome)}</div>`:""}
+      ${r.atualizado_em?`<div class="small muted" style="margin-top:6px">Atualizado em: ${new Date(r.atualizado_em).toLocaleString("pt-BR")}</div>`:""}
+    </div>`;
+  }).join("");
+  modal.innerHTML=`<div class="modal-card" style="max-width:900px;max-height:90vh;overflow:auto">
+    <div class="modal-head">
+      <div><h2 style="margin:0">Checklist do gestor</h2><div class="small muted">Filial ${esc(d.numero_filial)} — ${esc(d.nome_filial)} · Inventário: ${new Date(d.data_inventario+"T00:00:00").toLocaleDateString("pt-BR")}</div></div>
+      <button type="button" class="secondary" id="closeChecklist">Fechar</button>
+    </div>
+    <div class="notice" style="margin-top:16px"><b>Progresso: ${pct}%</b> — ${done} de ${all.length} etapas marcadas como preparadas.<br>Status do dossiê: <b>${esc(d.status)}</b></div>
+    <div style="margin-top:18px">${itemRows}</div>
+    <div class="notice" style="margin-top:18px"><b>Observação:</b> esta é uma visão de acompanhamento. O preenchimento continua sendo feito pelo gestor no link seguro.</div>
+  </div>`;
+  document.body.appendChild(modal);
+  const close=()=>modal.remove();
+  document.getElementById("closeChecklist").onclick=close;
+  modal.addEventListener("click",e=>{if(e.target===modal)close();});
+}
+
+async function openManagerByToken(token){
+  managerMode=true;
+  $("authView").classList.add("hidden");
+  $("internalView").classList.add("hidden");
+  $("managerView").classList.remove("hidden");
+  $("managerMsg").innerHTML="<div class='notice'>Validando acesso seguro...</div>";
+
+  let {data:{session}}=await supabase.auth.getSession();
+  if(!session){
+    const {error}=await supabase.auth.signInAnonymously();
+    if(error){$("managerMsg").innerHTML='<div class="error">Não foi possível iniciar o acesso do gestor.</div>';return;}
+  }
+  const {data,error}=await supabase.rpc("abrir_dossie",{p_token:token});
+  if(error||!data?.length){
+    $("managerMsg").innerHTML='<div class="error">Link inválido, expirado ou já vinculado a outro acesso.</div>';
+    return;
+  }
+  currentDossier=data[0];
+  $("managerTitle").textContent=`Filial ${currentDossier.numero_filial} — ${currentDossier.nome_filial}`;
+  $("managerMeta").textContent=`Inventário: ${new Date(currentDossier.data_inventario+"T00:00:00").toLocaleDateString("pt-BR")}`;
+  $("managerStatus").textContent=currentDossier.status;
+  $("managerMsg").innerHTML='<div class="notice">Acesso validado. Você pode preencher e salvar o dossiê durante a semana.</div>';
+  await loadSavedDraft();
+  updateProgress();
+}
+
+$("loginBtn").onclick=login;
+$("createBtn").onclick=createDossier;
+$("logoutBtn").onclick=async()=>{await supabase.auth.signOut();location.href=location.pathname;};
+$("saveBtn").onclick=()=>saveDraft(true);
+$("finalizeBtn").onclick=async()=>{
+  updateProgress();
+  if($("finalizeBtn").disabled)return;
+  await saveDraft(false);
+  $("result").className="success";
+  $("result").classList.remove("hidden");
+  $("result").innerHTML=`<b>Dossiê preparado para envio.</b><br>Filial: ${escapeHtml(currentDossier.numero_filial)} — ${escapeHtml(currentDossier.nome_filial)}<br>Enviado em: ${nowText()}`;
+};
+
+["declaracao"].forEach(id=>$(id).addEventListener("change",updateProgress));
+document.addEventListener("change",e=>{if(e.target.id?.startsWith("ok-"))updateProgress();});
+document.addEventListener("input",e=>{if(e.target.matches("textarea,input"))updateProgress();});
+setInterval(()=>$("clock").textContent=nowText(),1000);
+$("clock").textContent=nowText();
+
+const token=new URLSearchParams(location.search).get("token");
+if(token){
+  openManagerByToken(token);
+}else{
+  const {data:{session}}=await supabase.auth.getSession();
+  if(session && !session.user.is_anonymous) await showInternal();
+}
+
+// V6 — Minha conta / troca de senha
+async function openAccountPanel(){
+  const panel = document.getElementById('accountPanel');
+  if(!panel) return;
+  try{
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if(error || !user) throw error || new Error('Sessão não encontrada.');
+    document.getElementById('accountNameInput').value =
+      (typeof currentProfile !== 'undefined' && currentProfile?.nome) || user.user_metadata?.nome || '';
+    document.getElementById('accountEmail').textContent = user.email || '—';
+    document.getElementById('accountRole').textContent =
+      (typeof currentRole !== 'undefined' && currentRole)
+        ? ({admin:'Administrador',auditor:'Auditor',gestor:'Gestor'}[currentRole] || currentRole)
+        : '—';
+    document.getElementById('changePasswordForm').reset();
+    const msg=document.getElementById('passwordMessage');
+    msg.textContent=''; msg.className='form-message';
+    panel.style.display='flex';
+  }catch(err){
+    alert('Não foi possível carregar os dados da conta: '+(err?.message || err));
+  }
+}
+async function saveOwnName(){
+  const input=document.getElementById('accountNameInput');
+  const btn=document.getElementById('saveNameBtn');
+  const msg=document.getElementById('nameMessage');
+  const nome=input.value.trim();
+  msg.textContent=''; msg.className='form-message';
+  if(nome.length<2){msg.textContent='Informe um nome válido.';msg.className='form-message error';return;}
+  btn.disabled=true; btn.textContent='Salvando…';
+  try{
+    const {data:{user},error:userError}=await supabase.auth.getUser();
+    if(userError||!user) throw userError||new Error('Sessão não encontrada.');
+    const {data,error}=await supabase.from('profiles').update({nome,atualizado_em:new Date().toISOString()}).eq('user_id',user.id).select('user_id,nome,email,perfil').single();
+    if(error) throw error;
+    currentProfile=data;
+    document.getElementById('userName').textContent=nome;
+    msg.textContent='Nome atualizado com sucesso.'; msg.className='form-message success';
+  }catch(err){
+    msg.textContent='Não foi possível atualizar o nome: '+(err?.message||err);
+    msg.className='form-message error';
+  }finally{
+    btn.disabled=false; btn.textContent='Salvar nome';
+  }
+}
+function closeAccountPanel(){
+  const panel=document.getElementById('accountPanel');
+  if(panel) panel.style.display='none';
+}
+async function changeOwnPassword(event){
+  event.preventDefault();
+  const current=document.getElementById('currentPassword').value;
+  const next=document.getElementById('newPassword').value;
+  const confirm=document.getElementById('confirmPassword').value;
+  const btn=document.getElementById('changePasswordBtn');
+  const msg=document.getElementById('passwordMessage');
+  msg.textContent=''; msg.className='form-message';
+  if(next.length < 8){ msg.textContent='A nova senha precisa ter pelo menos 8 caracteres.'; msg.className='form-message error'; return; }
+  if(next !== confirm){ msg.textContent='A confirmação da nova senha não confere.'; msg.className='form-message error'; return; }
+  if(current === next){ msg.textContent='A nova senha deve ser diferente da senha atual.'; msg.className='form-message error'; return; }
+  btn.disabled=true; btn.textContent='Alterando…';
+  try{
+    const { error } = await supabase.auth.updateUser({
+      password: next,
+      current_password: current
+    });
+    if(error) throw error;
+    msg.textContent='Senha alterada com sucesso.';
+    msg.className='form-message success';
+    document.getElementById('changePasswordForm').reset();
+  }catch(err){
+    let message=err?.message || 'Não foi possível alterar a senha.';
+    if(/current.*password|invalid.*password|password.*incorrect/i.test(message)){
+      message='A senha atual está incorreta.';
+    }
+    msg.textContent=message;
+    msg.className='form-message error';
+  }finally{
+    btn.disabled=false; btn.textContent='Alterar senha';
+  }
+}
+window.openAccountPanel = openAccountPanel;
+window.closeAccountPanel = closeAccountPanel;
+window.changeOwnPassword = changeOwnPassword;
+window.saveOwnName = saveOwnName;
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeAccountPanel(); });
+
+
+// V6.2 — Administração de usuários
+function openAdminPanel(){
+  if(currentRole !== 'admin'){ alert('Acesso restrito ao administrador.'); return; }
+  const panel=document.getElementById('adminPanel');
+  if(!panel)return;
+  document.getElementById('createUserForm').reset();
+  document.getElementById('createUserMessage').innerHTML='';
+  panel.style.display='flex';
+  loadAdminUsers();
+}
+function closeAdminPanel(){
+  const panel=document.getElementById('adminPanel');
+  if(panel)panel.style.display='none';
+}
+function roleLabel(role){ return role==='admin'?'👑 Administrador':'🕵️ Auditor'; }
+async function loadAdminUsers(){
+  const box=document.getElementById('adminUserList');
+  if(!box)return;
+  box.innerHTML='<div class="muted">Carregando usuários...</div>';
+  const {data,error}=await supabase.from('profiles').select('user_id,nome,email,perfil,criado_em,atualizado_em').order('nome',{ascending:true});
+  if(error){box.innerHTML='<div class="admin-error">Não foi possível carregar os usuários: '+escapeHtml(error.message)+'</div>';return;}
+  if(!data?.length){box.innerHTML='<div class="muted">Nenhum usuário cadastrado.</div>';return;}
+  box.innerHTML=data.map(u=>`
+    <div class="admin-user-row">
+      <div><b>${escapeHtml(u.nome||'Sem nome')}</b><div class="muted">${escapeHtml(u.email||'')}</div></div>
+      <div><span class="admin-role ${u.perfil==='admin'?'admin':'auditor'}">${roleLabel(u.perfil)}</span></div>
+      <div class="muted">Criado: ${u.criado_em?new Date(u.criado_em).toLocaleDateString('pt-BR'):'—'}</div>
+      <div class="admin-user-actions">${u.user_id === (currentProfile?.user_id||'') ? '<span class="tag">Você</span>' : '<button type="button" class="danger-btn" onclick="deleteInternalUser(\''+u.user_id+'\', \''+escapeHtml(u.nome||u.email||'este usuário').replace(/'/g, '\\&#39;')+'\')">Excluir</button>'}</div>
+    </div>`).join('');
+}
+async function deleteInternalUser(userId, userName){
+  if(currentRole!=='admin') return;
+  if(!userId) return;
+  if(userId === (currentProfile?.user_id||'')){
+    alert('Por segurança, o administrador não pode excluir a própria conta por aqui.');
+    return;
+  }
+  const ok=confirm(`Excluir o usuário ${userName}?\n\nEssa ação removerá o acesso do usuário à plataforma e não pode ser desfeita.`);
+  if(!ok) return;
+  try{
+    const {data:{session},error:sessionError}=await supabase.auth.getSession();
+    if(sessionError) throw sessionError;
+    if(!session?.access_token) throw new Error('Sessão de administrador não encontrada. Faça login novamente.');
+    const functionUrl = `${SUPABASE_URL}/functions/v1/delete-admin-user`;
+    const response = await fetch(functionUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`,
+        'apikey': SUPABASE_PUBLISHABLE_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({user_id:userId})
+    });
+    let data=null;
+    try{data=await response.json();}catch(_){ }
+    if(!response.ok) throw new Error(data?.error||data?.message||`A função retornou HTTP ${response.status}.`);
+    if(!data?.success) throw new Error(data?.error||'Não foi possível excluir o usuário.');
+    await loadAdminUsers();
+    alert('Usuário excluído com sucesso.');
+  }catch(err){
+    alert('Não foi possível excluir o usuário: '+(err?.message||'Erro inesperado.'));
+  }
+}
+
+async function createInternalUser(event){
+  event.preventDefault();
+  if(currentRole!=='admin')return;
+  const nome=document.getElementById('newUserName').value.trim();
+  const email=document.getElementById('newUserEmail').value.trim().toLowerCase();
+  const perfil=document.getElementById('newUserRole').value;
+  const password=document.getElementById('newUserPassword').value;
+  const password2=document.getElementById('newUserPassword2').value;
+  const btn=document.getElementById('createUserBtn');
+  const msg=document.getElementById('createUserMessage');
+  msg.innerHTML='';
+  if(nome.length<2){msg.innerHTML='<div class="admin-error">Informe um nome válido.</div>';return;}
+  if(password.length<8){msg.innerHTML='<div class="admin-error">A senha inicial precisa ter pelo menos 8 caracteres.</div>';return;}
+  if(password!==password2){msg.innerHTML='<div class="admin-error">As senhas não conferem.</div>';return;}
+  btn.disabled=true;btn.textContent='Criando…';
+  try{
+    const {data:{session},error:sessionError}=await supabase.auth.getSession();
+    if(sessionError) throw sessionError;
+    if(!session?.access_token) throw new Error('Sessão de administrador não encontrada. Faça login novamente.');
+    const functionUrl = `${SUPABASE_URL}/functions/v1/create-admin-user`;
+    const response = await fetch(functionUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`,
+        'apikey': SUPABASE_PUBLISHABLE_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({nome,email,perfil,senha:password})
+    });
+    let data = null;
+    try { data = await response.json(); } catch (_) {}
+    if(!response.ok) {
+      throw new Error(data?.error || data?.message || `A função retornou HTTP ${response.status}.`);
+    }
+    if(!data?.success)throw new Error(data?.error||'Não foi possível criar o usuário.');
+    const createdUser = data.user || {};
+    msg.innerHTML='<div class="admin-success">Usuário criado com sucesso: '+escapeHtml(createdUser.email||email)+' — '+escapeHtml(roleLabel(createdUser.perfil||perfil))+'</div>';
+    document.getElementById('createUserForm').reset();
+    await loadAdminUsers();
+  }catch(err){
+    let detail=err?.message||'Erro inesperado.';
+    try{ if(err?.context){ const body=await err.context.json(); detail=body?.error||detail; } }catch(_){}
+    msg.innerHTML='<div class="admin-error">Não foi possível criar o usuário: '+escapeHtml(detail)+'</div>';
+  }finally{btn.disabled=false;btn.textContent='Criar usuário';}
+}
+window.openAdminPanel=openAdminPanel;
+window.closeAdminPanel=closeAdminPanel;
+window.createInternalUser=createInternalUser;
+window.deleteInternalUser=deleteInternalUser;
+window.loadAdminUsers=loadAdminUsers;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAdminPanel();});
+</script>
+
+<div id="accountPanel" class="modal-backdrop" style="display:none;">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeAccountPanel()" aria-label="Fechar">×</button>
+    <div class="modal-kicker">MINHA CONTA</div>
+    <h2>👤 Minha conta</h2>
+    <div class="account-info">
+      <div>
+        <span>Nome</span>
+        <input id="accountNameInput" type="text" maxlength="120" autocomplete="name" placeholder="Seu nome">
+        <button type="button" class="primary" id="saveNameBtn" onclick="saveOwnName()" style="margin-top:9px">Salvar nome</button>
+        <div id="nameMessage" class="form-message" role="status"></div>
+      </div>
+      <div><span>E-mail</span><strong id="accountEmail">—</strong></div>
+      <div><span>Perfil</span><strong id="accountRole">—</strong></div>
+    </div>
+    <hr>
+    <h3>🔑 Alterar senha</h3>
+    <p class="muted">Sua senha é gerenciada pelo Supabase Auth. A nova senha será aplicada somente à sua própria conta.</p>
+    <form id="changePasswordForm" onsubmit="changeOwnPassword(event)">
+      <label>Senha atual
+        <input id="currentPassword" type="password" autocomplete="current-password" required>
+      </label>
+      <label>Nova senha
+        <input id="newPassword" type="password" autocomplete="new-password" minlength="8" required>
+      </label>
+      <label>Confirmar nova senha
+        <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" required>
+      </label>
+      <div class="password-hint">Mínimo de 8 caracteres. Prefira uma combinação de letras maiúsculas/minúsculas, números e símbolos.</div>
+      <button class="primary-btn" type="submit" id="changePasswordBtn">Alterar senha</button>
+      <div id="passwordMessage" class="form-message" role="status"></div>
+    </form>
+  </div>
+</div>
+
+
+<div id="adminPanel" class="modal-backdrop" style="display:none;">
+  <div class="modal-card admin-modal-card">
+    <button class="modal-close" onclick="closeAdminPanel()" aria-label="Fechar">×</button>
+    <div class="modal-kicker">ADMINISTRAÇÃO</div>
+    <h2>👑 Gerenciamento de usuários</h2>
+    <p class="muted">Crie usuários internos para acesso à plataforma. O perfil define as permissões.</p>
+
+    <div class="admin-section">
+      <h3>➕ Novo usuário</h3>
+      <form id="createUserForm" onsubmit="createInternalUser(event)">
+        <div class="admin-grid">
+          <div><label>Nome<input id="newUserName" type="text" maxlength="120" autocomplete="name" required></label></div>
+          <div><label>E-mail corporativo<input id="newUserEmail" type="email" maxlength="180" autocomplete="email" required></label></div>
+          <div><label>Perfil<select id="newUserRole" required><option value="auditor">🕵️ Auditor</option><option value="admin">👑 Administrador</option></select></label></div>
+          <div><label>Senha inicial<input id="newUserPassword" type="password" minlength="8" autocomplete="new-password" required></label></div>
+          <div><label>Confirmar senha<input id="newUserPassword2" type="password" minlength="8" autocomplete="new-password" required></label></div>
+          <div class="full admin-note">A senha inicial será entregue pelo administrador ao usuário. O usuário poderá alterá-la em <b>Minha conta</b>.</div>
+        </div>
+        <div class="actions"><button class="primary" id="createUserBtn" type="submit">Criar usuário</button></div>
+        <div id="createUserMessage"></div>
+      </form>
+    </div>
+
+    <div class="admin-section">
+      <h3>👥 Usuários cadastrados</h3>
+      <div id="adminUserList" class="admin-user-list"><div class="muted">Carregando...</div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
